@@ -7,7 +7,9 @@ const {Todo} = require("./../models/todo");
 
 const todos = [{
     _id: new ObjectID(),
-    text: "First test todo"
+    text: "First test todo",
+    completed: true,
+    completedAt: 333
 }, {
     _id: new ObjectID(),
     text: "Second test todo"
@@ -137,7 +139,6 @@ describe("POST /todos", () => {
                 });
         });
 
-        /*
         it("should return 404 if todo not found", (done) => {
             var hexId = new ObjectID().toHexString();
 
@@ -153,10 +154,39 @@ describe("POST /todos", () => {
             .expect(404)
             .end(done);
         });
-        */
-        
     });
 
+    describe("PATCH /todos/:id", () => {
+        it("should update the todo", (done) => {
+            var hexId = todos[0]._id.toHexString();
+            var text = "first todo was modified";
 
-    
+            request(app)
+                .patch(`/todos/${hexId}`)
+                .send({text: text, completed: true})
+                .expect(200)
+                .expect((res) => {
+                    expect(res.body.todo.text).toBe(text);
+                    expect(res.body.todo.completed).toBe(true);
+                    expect(res.body.todo.completedAt).toBeA("number");
+                })
+                .end(done);
+        });
+
+        it("should clear completedAt when todo is not completed", (done) => {
+            var hexId = todos[1]._id.toHexString();
+            var text = "second todo was modified";
+
+            request(app)
+                .patch(`/todos/${hexId}`)
+                .send({text: text, completed: false})
+                .expect(200)
+                .expect((res) => {
+                    expect(res.body.todo.text).toBe(text);
+                    expect(res.body.todo.completed).toBe(false);
+                    expect(res.body.todo.completedAt).toNotExist();
+                })
+                .end(done);
+        });
+    });
 });
