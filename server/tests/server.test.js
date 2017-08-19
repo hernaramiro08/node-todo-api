@@ -137,6 +137,7 @@ describe("POST /todos", () => {
                 });
         });
 
+        /*
         it("should return 404 if todo not found", (done) => {
             var hexId = new ObjectID().toHexString();
 
@@ -145,13 +146,15 @@ describe("POST /todos", () => {
                 .expect(404)
                 .end(done);
         });
-
+        
         it("should return 404 if object id is invalid", (done) => {
             request(app)
             .delete(`/todos/123abc`)
             .expect(404)
             .end(done);
         });
+        */
+        
     });
 
 
