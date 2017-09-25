@@ -6,14 +6,14 @@ var password= "123abc!";
 
 bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, (err, hash) => {
-        console.log(hash);
+        console.log('hash', hash);
     });
 });
 
 var hashedPassword = "$2a$10$D7uNrCz6CBEUFqo7xD/UUez/fku4m2rOblpS1.Wo3DODEv5Ni9AJi";
 
 bcrypt.compare(password, hashedPassword, (err, res) => {
-    console.log(res);
+    console.log('res', res);
 });
 
 /*
